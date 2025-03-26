@@ -33,6 +33,14 @@ func main() {
 	v1Router := chi.NewRouter()
 	v1Router.Get("/healthz", handlerReadiness)
 	v1Router.Get("/err", handlerErr)
+	v1Router.Get("/hello", helloHandler)
+
+	v1Router.Route("/users", func(r chi.Router) {
+		r.Get("/", getUserHandler)
+		r.Post("/", postUserHandler)
+		r.Put("/{id}", putUserHandler)
+		r.Delete("/{id}", deleteUserHandler)
+	})
 
 	router.Mount("/v1", v1Router)
 
